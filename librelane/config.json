@@ -28,7 +28,7 @@
     "dir::../verilog/rtl/hello_world.v"
   ],
   "DIE_AREA": "0 0 161.00 111.52",
-  "FP_DEF_TEMPLATE": "dir::../magic/post_clean.def",
+  "FP_DEF_TEMPLATE": "dir::../magic/postpin_clean.def",
   "VDD_PIN": "VPWR",
   "GND_PIN": "VGND",
   "//RSZ_DONT_TOUCH_RX": "^[RGB]\\[[0-9]+\\]$"

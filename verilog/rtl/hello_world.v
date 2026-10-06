@@ -17,7 +17,9 @@ module tt_um_algofoogle_hello_world (
 //    inout  wire [7:0] ua,       // Analog pins, only ua[5:0] can be used
     input  wire       ena,      // always 1 when the design is powered, so you can ignore it
     input  wire       clk,      // clock
-    input  wire       rst_n     // reset_n - low to reset
+    input  wire       rst_n,     // reset_n - low to reset
+
+    output wire [4:0] k         // Example extra pins
 );
 
 	reg [15:0] counter;
@@ -32,6 +34,8 @@ module tt_um_algofoogle_hello_world (
 	assign {uio_out,uo_out} = counter + {8'b0, ui_in};
 	assign uio_oe = '1; // All 1.
 
-	wire _unused = &{ena, 1'b0};
+    assign k = counter[4:0];
+
+	wire _unused = &{ena, uio_in, 1'b0};
 
 endmodule
