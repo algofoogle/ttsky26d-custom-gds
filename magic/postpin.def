@@ -230,18 +230,28 @@ PINS 48 ;
      + PORT
         + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 74980 111020 ) N ;
    - k0 + NET k0
+     + DIRECTION OUTPUT
+     + USE SIGNAL
      + PORT
         + LAYER met3 ( -200 -400 ) ( 200 400 )        + PLACED ( 22600 30400 ) N ;
    - k1 + NET k1
+     + DIRECTION OUTPUT
+     + USE SIGNAL
      + PORT
         + LAYER met3 ( -200 -400 ) ( 200 400 )        + PLACED ( 25600 30400 ) N ;
    - k2 + NET k2
+     + DIRECTION OUTPUT
+     + USE SIGNAL
      + PORT
         + LAYER met3 ( -200 -400 ) ( 200 400 )        + PLACED ( 27600 30400 ) N ;
    - k3 + NET k3
+     + DIRECTION OUTPUT
+     + USE SIGNAL
      + PORT
         + LAYER met3 ( -200 -400 ) ( 200 400 )        + PLACED ( 28600 30400 ) N ;
    - k4 + NET k4
+     + DIRECTION OUTPUT
+     + USE SIGNAL
      + PORT
         + LAYER met2 ( -200 -400 ) ( 200 400 )        + PLACED ( 29600 30400 ) N ;
 END PINS

@@ -1,6 +1,6 @@
 magic
 tech sky130A
-timestamp 1791256202
+timestamp 1791318109
 << metal2 >>
 rect 2940 3000 2980 3080
 << metal3 >>
@@ -142,15 +142,15 @@ port 42 nsew signal output
 flabel space 7745 6125 10715 8455 0 FreeSans 1600 0 0 0 obs:place;route
 flabel space 0 0 5000 3000 0 FreeSans 1600 0 0 0 obs:all
 flabel metal3 2240 3000 2280 3080 0 FreeSans 160 0 0 0 k0
-port 43 nsew
+port 43 nsew signal output
 flabel metal3 2540 3000 2580 3080 0 FreeSans 160 0 0 0 k1
-port 44 nsew
+port 44 nsew signal output
 flabel metal3 2740 3000 2780 3080 0 FreeSans 160 0 0 0 k2
-port 45 nsew
+port 45 nsew signal output
 flabel metal3 2840 3000 2880 3080 0 FreeSans 160 0 0 0 k3
-port 46 nsew
+port 46 nsew signal output
 flabel metal2 2940 3000 2980 3080 0 FreeSans 160 0 0 0 k4
-port 47 nsew
+port 47 nsew signal output
 << properties >>
 string FIXED_BBOX 0 0 16100 11152
 << end >>

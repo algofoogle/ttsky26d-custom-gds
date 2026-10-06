@@ -295,6 +295,83 @@ def round_bus_names(text):
     # identifier immediately followed by (digits), unlike DEF tuple/coordinate syntax
     return sorted(set(re.findall(r'\b[A-Za-z_.$/][A-Za-z0-9_.$/\[\]-]*\(\d+\)',text)))
 
+def parse_port_list(value, option):
+    if value is None: return []
+    xs=[x.strip() for x in value.split(",")]
+    if any(not x for x in xs): die(f"empty port name in {option}")
+    return xs
+
+def source_pin_properties(text):
+    s=get_section(text,"PINS")
+    if not s: return []
+    out=[]
+    for e in entries(s[4]):
+        c=" ".join(e.split())
+        m=re.match(rf'-\s+({NAME})(?=\s|$)',c)
+        if not m: die("cannot parse PINS entry: "+c)
+        n=m.group(1)
+        dm=re.search(r'\+\s+DIRECTION\s+(INPUT|OUTPUT|INOUT|FEEDTHRU)\b',c,re.I)
+        um=re.search(r'\+\s+USE\s+(SIGNAL|POWER|GROUND|CLOCK|TIEOFF|ANALOG|SCAN|RESET)\b',c,re.I)
+        out.append({"name":n,"direction":dm.group(1).upper() if dm else None,"use":um.group(1).upper() if um else None})
+    return out
+
+def build_pin_policy(a, source_props):
+    direction_opts=[("--input-ports",a.input_ports,"INPUT"),("--output-ports",a.output_ports,"OUTPUT"),("--inout-ports",a.inout_ports,"INOUT"),("--feedthru-ports",a.feedthru_ports,"FEEDTHRU")]
+    use_opts=[("--signal-ports",a.signal_ports,"SIGNAL"),("--power-ports",a.power_ports,"POWER"),("--ground-ports",a.ground_ports,"GROUND"),("--clock-ports",a.clock_ports,"CLOCK"),("--tieoff-ports",a.tieoff_ports,"TIEOFF"),("--analog-ports",a.analog_ports,"ANALOG"),("--scan-ports",a.scan_ports,"SCAN"),("--reset-ports",a.reset_ports,"RESET")]
+    known={x["name"] for x in source_props}; dov={}; uov={}
+    def collect(opts,dst):
+        for opt,value,kind in opts:
+            for n in parse_port_list(value,opt):
+                if n not in known: die(f"{opt}: unknown port {n!r}")
+                if n in dst and dst[n][0]!=kind: die(f"port {n!r} appears in conflicting options {dst[n][1]} and {opt}")
+                dst[n]=(kind,opt)
+    collect(direction_opts,dov); collect(use_opts,uov)
+    rows=[]
+    for sp in source_props:
+        n=sp["name"]; sd=sp["direction"]; su=sp["use"]
+        if n in dov: ed,ds=dov[n]; dd=False
+        elif sd is not None: ed,ds,dd=sd,"source DEF",False
+        elif a.default_direction: ed,ds,dd=a.default_direction.upper(),"--default-direction",True
+        else: ed,ds,dd=None,"unspecified",False
+        if n in uov: eu,us=uov[n]; ud=False
+        elif su is not None: eu,us,ud=su,"source DEF",False
+        elif a.default_use: eu,us,ud=a.default_use.upper(),"--default-use",True
+        else: eu,us,ud=None,"unspecified",False
+        rows.append({"name":n,"source_direction":sd,"source_use":su,"direction":ed,"direction_source":ds,"direction_defaulted":dd,"use":eu,"use_source":us,"use_defaulted":ud})
+    return rows
+
+def apply_pin_policy(text, rows):
+    byname={r["name"]:r for r in rows}; s=get_section(text,"PINS")
+    if not s: die("missing PINS")
+    out=[]
+    for e in entries(s[4]):
+        c=" ".join(e.split()); m=re.match(rf'-\s+({NAME})(?=\s|$)',c)
+        if not m: die("cannot parse PINS entry: "+c)
+        n=m.group(1); r=byname[n]
+        # Explicit CLI overrides replace existing clauses. Defaults only arrive
+        # here when the source clause was absent. Insert before PORT when absent.
+        if r["direction"]:
+            if re.search(r'\+\s+DIRECTION\s+\S+',c,re.I): c=re.sub(r'\+\s+DIRECTION\s+\S+',f'+ DIRECTION {r["direction"]}',c,count=1,flags=re.I)
+            else:
+                pm=re.search(r'\+\s+PORT\b',c,re.I); pos=pm.start() if pm else c.rfind(';')
+                c=c[:pos].rstrip()+f' + DIRECTION {r["direction"]} '+c[pos:].lstrip()
+        if r["use"]:
+            if re.search(r'\+\s+USE\s+\S+',c,re.I): c=re.sub(r'\+\s+USE\s+\S+',f'+ USE {r["use"]}',c,count=1,flags=re.I)
+            else:
+                pm=re.search(r'\+\s+PORT\b',c,re.I); pos=pm.start() if pm else c.rfind(';')
+                c=c[:pos].rstrip()+f' + USE {r["use"]} '+c[pos:].lstrip()
+        out.append(c)
+    return replace_section(text,"PINS",f"PINS {len(out)} ;\n"+"\n".join(out)+"\nEND PINS")
+
+def print_port_summary(rows):
+    print("Ports:")
+    for r in rows:
+        sd=r["source_direction"] or "unspecified"; su=r["source_use"] or "unspecified"
+        ed=r["direction"] or "unspecified"; eu=r["use"] or "unspecified"
+        dtag="; defaulted" if r["direction_defaulted"] else (f"; {r['direction_source']}" if r["direction_source"] not in ("source DEF","unspecified") else "")
+        utag="; defaulted" if r["use_defaulted"] else (f"; {r['use_source']}" if r["use_source"] not in ("source DEF","unspecified") else "")
+        print(f"  {r['name']}: DIRECTION explicit={sd}, effective={ed}{dtag}; USE explicit={su}, effective={eu}{utag}")
+
 def pin_info(text):
     s=get_section(text,"PINS")
     if not s:return None,[],[]
@@ -302,8 +379,10 @@ def pin_info(text):
     for e in es:
         m=re.match(rf'\s*-\s+({NAME})',e); n=m.group(1) if m else "?"
         names.append(n)
-        for prop in ("DIRECTION","USE","PORT"):
-            if not re.search(rf'\+\s+{prop}\b',e,re.I): issues.append(f"pin {n} lacks {prop}")
+        # DIRECTION and USE are optional DEF pin properties.  Do not assume
+        # every pin follows the TinyTapeout template; e.g. auxiliary/internal
+        # boundary pins may legitimately contain only NET/PORT geometry.
+        if not re.search(r'\+\s+PORT\b',e,re.I): issues.append(f"pin {n} lacks PORT")
     if decl is not None and decl!=len(es): issues.append(f"PINS declares {decl}, parsed {len(es)}")
     return decl,names,issues
 
@@ -319,6 +398,13 @@ def main():
     fmt.add_argument("--format-like-source", dest="format_like_source", action="store_true", default=True, help="format close to TinyTapeout source.def for minimal diffs (default)")
     fmt.add_argument("--no-format-like-source", dest="format_like_source", action="store_false", help="disable source-like canonical formatting")
     ap.add_argument("-V", "--verbose", action="store_true", help="print resolved option/configuration summary, including implicit defaults")
+    ap.add_argument("--warnings-as-errors", action="store_true", help="exit with error status if any sanity warnings are produced")
+    for opt,dest in (("--input-ports","input_ports"),("--output-ports","output_ports"),("--inout-ports","inout_ports"),("--feedthru-ports","feedthru_ports")):
+        ap.add_argument(opt,dest=dest,metavar="PORTS",help="comma-separated ports whose DIRECTION is overridden")
+    ap.add_argument("--default-direction", choices=("INPUT","OUTPUT","INOUT","FEEDTHRU"), type=str.upper, help="DIRECTION for ports otherwise unspecified")
+    for opt,dest in (("--signal-ports","signal_ports"),("--power-ports","power_ports"),("--ground-ports","ground_ports"),("--clock-ports","clock_ports"),("--tieoff-ports","tieoff_ports"),("--analog-ports","analog_ports"),("--scan-ports","scan_ports"),("--reset-ports","reset_ports")):
+        ap.add_argument(opt,dest=dest,metavar="PORTS",help="comma-separated ports whose USE is overridden")
+    ap.add_argument("--default-use", choices=("SIGNAL","POWER","GROUND","CLOCK","TIEOFF","ANALOG","SCAN","RESET"), type=str.upper, help="USE for ports otherwise unspecified")
     ap.add_argument("--mag-source", type=Path, help="Magic .mag source for obs: labels (default: input DEF with .mag suffix)")
     ap.add_argument("--def-blockages", action="store_true", help="emit DEF BLOCKAGES from obs: labels")
     ap.add_argument("--librelane-obstructions", type=Path, metavar="JSON", help="write LibreLane obstruction config fragment")
@@ -331,6 +417,9 @@ def main():
     if a.input.resolve()==a.output.resolve(): die("input and output must differ")
     if not a.input.is_file(): die(f"not found: {a.input}")
     text=a.input.read_text()
+    source_ports=source_pin_properties(text)
+    port_rows=build_pin_policy(a,source_ports)
+    text=apply_pin_policy(text,port_rows)
     obs=[]; obs_meta=None
     if a.def_blockages or a.librelane_obstructions:
         mag_path=a.mag_source or a.input.with_suffix(".mag")
@@ -350,7 +439,10 @@ def main():
         print(f"  input: {a.input}")
         print(f"  output: {a.output}")
         print(f"  design: {a.design or a.output.stem} ({'explicit' if a.design else 'output filename stem'})")
-        print(f"  format-like-source: {'yes' if a.format_like_source else 'no'}")
+        print(f"  --format-like-source: {'yes' if a.format_like_source else 'no'}")
+        print(f"  --warnings-as-errors: {'yes' if a.warnings_as_errors else 'no'}")
+        for opt,attr in (("--input-ports","input_ports"),("--output-ports","output_ports"),("--inout-ports","inout_ports"),("--feedthru-ports","feedthru_ports"),("--default-direction","default_direction"),("--signal-ports","signal_ports"),("--power-ports","power_ports"),("--ground-ports","ground_ports"),("--clock-ports","clock_ports"),("--tieoff-ports","tieoff_ports"),("--analog-ports","analog_ports"),("--scan-ports","scan_ports"),("--reset-ports","reset_ports"),("--default-use","default_use")):
+            v=getattr(a,attr); print(f"  {opt}: {v if v else '(none)'}")
         print(f"  specialnets-from: {a.specialnets_from if a.specialnets_from else '(none)'}")
         print(f"  ground nets: {', '.join(a.ground) if a.ground else '(none explicit)'}")
         print(f"  power nets: {', '.join(a.power) if a.power else '(none explicit)'}")
@@ -372,6 +464,8 @@ def main():
             print(f"  Magic coordinate unit: {fmt_decimal(unit_um)} um ({scale_source})")
         else:
             print("  mag/PDK/layer/scale resolution: not needed (obstruction output disabled)")
+        print()
+        print_port_summary(port_rows)
         print()
     bad=round_bus_names(text)
     if bad: die("round-parenthesis bus-like names found; refusing BUSBITCHARS change: "+", ".join(bad))
@@ -411,12 +505,53 @@ def main():
         pout=[]
         for e in entries(ps[4]):
             c=" ".join(e.split())
-            m=re.match(rf'-\s+({NAME})\s+\+\s+NET\s+({NAME})\s+\+\s+DIRECTION\s+(\w+)\s+\+\s+USE\s+(\w+)\s+\+\s+PORT\s+\+\s+LAYER\s+(\S+)\s+(\(\s*[-+]?\d+\s+[-+]?\d+\s*\))\s+(\(\s*[-+]?\d+\s+[-+]?\d+\s*\))\s+\+\s+PLACED\s+(\(\s*[-+]?\d+\s+[-+]?\d+\s*\))\s+(\S+)\s*;$',c,re.I)
+            # Parse the pin structurally rather than assuming the fixed TT
+            # template property set.  Preserve optional clauses such as
+            # DIRECTION/USE only when they are present.
+            m=re.match(rf'-\s+({NAME})\s+\+\s+NET\s+({NAME})\s+(.*);$',c,re.I)
             if not m: die("cannot source-format PINS entry: "+c)
-            pn,nn,d,u,layer,ll,ur,placed,o=m.groups()
+            pn,nn,tail=m.groups()
             norm=lambda x: "( "+" ".join(re.findall(r'[-+]?\d+',x))+" )"
-            pout += [f"    - {pn} + NET {nn} + DIRECTION {d.upper()} + USE {u.upper()}","      + PORT",f"        + LAYER {layer} {norm(ll)} {norm(ur)}",f"        + PLACED {norm(placed)} {o} ;"]
-        text=replace_section(text,"PINS",f"PINS {len(pout)//4} ;\n"+"\n".join(pout)+"\nEND PINS")
+
+            # Split the pre-PORT properties from the PORT geometry.  This
+            # covers both normal TT pins and pins that omit DIRECTION/USE.
+            pm=re.search(r'\+\s+PORT\b',tail,re.I)
+            if not pm: die("cannot source-format PINS entry without PORT: "+c)
+            pre=tail[:pm.start()].strip()
+            port=tail[pm.end():].strip()
+
+            head=f"    - {pn} + NET {nn}"
+            # Canonicalise common optional scalar properties while retaining
+            # their input order and values.  Unknown pre-PORT clauses are
+            # preserved verbatim (with collapsed whitespace).
+            if pre:
+                pre=re.sub(r'\+\s+DIRECTION\s+(\S+)',lambda q: '+ DIRECTION '+q.group(1).upper(),pre,flags=re.I)
+                pre=re.sub(r'\+\s+USE\s+(\S+)',lambda q: '+ USE '+q.group(1).upper(),pre,flags=re.I)
+                head += " " + pre
+            pout.append(head)
+            pout.append("      + PORT")
+
+            # Canonicalise one or more LAYER rectangles followed by an
+            # optional placement/fixed clause.  Multiple LAYER rectangles
+            # are legal and are retained in order.
+            layer_re=re.compile(rf'\+\s+LAYER\s+(\S+)\s+(\(\s*[-+]?\d+\s+[-+]?\d+\s*\))\s+(\(\s*[-+]?\d+\s+[-+]?\d+\s*\))',re.I)
+            pos=0; found_layer=False
+            for lm in layer_re.finditer(port):
+                gap=port[pos:lm.start()].strip()
+                if gap: die("cannot source-format PINS PORT syntax: "+gap+" in "+c)
+                layer,ll,ur=lm.groups()
+                pout.append(f"        + LAYER {layer} {norm(ll)} {norm(ur)}")
+                found_layer=True; pos=lm.end()
+            rest=port[pos:].strip()
+            if not found_layer: die("cannot source-format PINS entry without LAYER geometry: "+c)
+            if rest:
+                qm=re.fullmatch(r'\+\s+(PLACED|FIXED|COVER)\s+(\(\s*[-+]?\d+\s+[-+]?\d+\s*\))\s+(\S+)',rest,re.I)
+                if not qm: die("cannot source-format PINS placement syntax: "+rest+" in "+c)
+                kind,placed,o=qm.groups()
+                pout.append(f"        + {kind.upper()} {norm(placed)} {o} ;")
+            else:
+                pout[-1] += " ;"
+        text=replace_section(text,"PINS",f"PINS {len(entries(ps[4]))} ;\n"+"\n".join(pout)+"\nEND PINS")
         ns=get_section(text,"NETS"); nes=entries(ns[4]) if ns else []
         def natkey(e):
             m=re.match(rf'\s*-\s+({NAME})',e); n=m.group(1) if m else e
@@ -437,6 +572,9 @@ def main():
         text=re.sub(r'\n[ \t]*\n(?:[ \t]*\n)+','\n\n',text).rstrip()+"\n"
     issues=[]
     _,pins,pissues=pin_info(text); issues+=pissues
+    for r in port_rows:
+        if r["direction"] is None: issues.append(f"pin {r['name']} lacks DIRECTION after port options/defaults")
+        if r["use"] is None: issues.append(f"pin {r['name']} lacks USE after port options/defaults")
     missing=sorted(set(pins)-set(nets))
     if missing: issues.append("PINS without NETS: "+", ".join(missing[:10]))
     if len(nets)!=len(set(nets)): issues.append("duplicate NETS names")
@@ -471,6 +609,9 @@ def main():
         if a.librelane_obstructions: print(f"LibreLane obstruction fragment: {a.librelane_obstructions}")
     print(f"Sanity warnings: {len(issues)}")
     for x in issues: warn(x)
+    if issues and a.warnings_as_errors:
+        print("Warnings treated as errors (--warnings-as-errors).", file=sys.stderr)
+        return 2
     return 1 if issues else 0
 
 if __name__=="__main__":
