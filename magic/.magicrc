@@ -1,0 +1,50 @@
+# NOTE: I have the following in my ~/.bashrc to help make this script
+# cooperate with launching 'magic' in this directory:
+#   magicpdk() {
+#       if [ -f magicrc ]; then
+#           magic -rcfile magicrc $@
+#       else
+#           magic -rcfile $PDK_MAGICRC $@
+#       fi
+#   }
+#   magicc() {
+#       magicpdk $@ &
+#   }
+# This enables me to do (for example):
+#   magicc array255x.mag
+# ...and then do SHIFT+ALT+G to enable snapping to a 10nm grid.
+
+# Find out if the IHP PDK tech has already been loaded:
+set current_tech [tech name]
+
+if {$current_tech eq $env(PDK)} {
+    puts "::: ANTON magicrc: PDK '$current_tech' already loaded"
+} else {
+    # Load the PDK config:
+    # set sky_magrc [file normalize $env(PDK_MAGICRC)]
+    set pdk_magrc [file normalize $env(PDK_ROOT)/$env(PDK)/libs.tech/magic/$env(PDK).magicrc] ;# ihp-sg13g2 magicrc file.
+    puts "::: ANTON magicrc: Current tech is '$current_tech'; sourcing $pdk_magrc"
+    source $pdk_magrc
+}
+
+puts "::: ANTON magicrc: Setting Anton's prefs"
+set Opts(cmdentry) 1                            ;# Turn on integrated command window (in layout editor) for TCL.
+macro Meta_XK_g       {grid 50nm; snap user}    ;# Define ALT+G key combo to select 50nm grid, with snapping.
+puts ":::       ALT+G = snap to 50nm grid"
+macro Meta_Shift_XK_G {grid 10nm; snap user}    ;# Define SHIFT+ALT+G key combo to select 10nm grid, with snapping.
+puts "::: SHIFT+ALT+G = snap to 10nm grid"
+# After 500ms (i.e. after proper window init) try to set the view the way we like it:
+after 500 {
+    after idle {
+        grid 50nm
+        snap user                                       ;# Turn on grid snapping.
+        set Opts(crosshair) 1                           ;# Turn on crosshairs.
+        snap user
+        # Check if this is a new blank cell:
+        set cell [cellname list self]
+        if {$cell eq "(UNNAMED)"} {
+            view -100nm -100nm 1um 1um
+        }
+    }
+}
+

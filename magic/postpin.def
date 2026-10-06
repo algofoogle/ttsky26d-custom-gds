@@ -1,0 +1,358 @@
+VERSION 5.7 ;
+   NAMESCASESENSITIVE ON ;
+   DIVIDERCHAR "/" ;
+   BUSBITCHARS "()" ;
+   DESIGN prepin ;
+   TECHNOLOGY sky130A ;
+   UNITS DISTANCE MICRONS 1000 ;
+   DIEAREA ( 0 0 ) ( 161000 111520 ) ;
+
+VIAS 0 ;
+END VIAS
+
+COMPONENTS 0 ;
+END COMPONENTS
+
+PINS 48 ;
+   - clk + NET clk
+     + DIRECTION INPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 143980 111020 ) N ;
+   - ena + NET ena
+     + DIRECTION INPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 146740 111020 ) N ;
+   - rst_n + NET rst_n
+     + DIRECTION INPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 141220 111020 ) N ;
+   - ui_in[0] + NET ui_in[0]
+     + DIRECTION INPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 138460 111020 ) N ;
+   - ui_in[1] + NET ui_in[1]
+     + DIRECTION INPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 135700 111020 ) N ;
+   - ui_in[2] + NET ui_in[2]
+     + DIRECTION INPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 132940 111020 ) N ;
+   - ui_in[3] + NET ui_in[3]
+     + DIRECTION INPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 130180 111020 ) N ;
+   - ui_in[4] + NET ui_in[4]
+     + DIRECTION INPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 127420 111020 ) N ;
+   - ui_in[5] + NET ui_in[5]
+     + DIRECTION INPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 124660 111020 ) N ;
+   - ui_in[6] + NET ui_in[6]
+     + DIRECTION INPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 121900 111020 ) N ;
+   - ui_in[7] + NET ui_in[7]
+     + DIRECTION INPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 119140 111020 ) N ;
+   - uio_in[0] + NET uio_in[0]
+     + DIRECTION INPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 116380 111020 ) N ;
+   - uio_in[1] + NET uio_in[1]
+     + DIRECTION INPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 113620 111020 ) N ;
+   - uio_in[2] + NET uio_in[2]
+     + DIRECTION INPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 110860 111020 ) N ;
+   - uio_in[3] + NET uio_in[3]
+     + DIRECTION INPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 108100 111020 ) N ;
+   - uio_in[4] + NET uio_in[4]
+     + DIRECTION INPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 105340 111020 ) N ;
+   - uio_in[5] + NET uio_in[5]
+     + DIRECTION INPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 102580 111020 ) N ;
+   - uio_in[6] + NET uio_in[6]
+     + DIRECTION INPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 99820 111020 ) N ;
+   - uio_in[7] + NET uio_in[7]
+     + DIRECTION INPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 97060 111020 ) N ;
+   - uio_oe[0] + NET uio_oe[0]
+     + DIRECTION OUTPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 50140 111020 ) N ;
+   - uio_oe[1] + NET uio_oe[1]
+     + DIRECTION OUTPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 47380 111020 ) N ;
+   - uio_oe[2] + NET uio_oe[2]
+     + DIRECTION OUTPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 44620 111020 ) N ;
+   - uio_oe[3] + NET uio_oe[3]
+     + DIRECTION OUTPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 41860 111020 ) N ;
+   - uio_oe[4] + NET uio_oe[4]
+     + DIRECTION OUTPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 39100 111020 ) N ;
+   - uio_oe[5] + NET uio_oe[5]
+     + DIRECTION OUTPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 36340 111020 ) N ;
+   - uio_oe[6] + NET uio_oe[6]
+     + DIRECTION OUTPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 33580 111020 ) N ;
+   - uio_oe[7] + NET uio_oe[7]
+     + DIRECTION OUTPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 30820 111020 ) N ;
+   - uio_out[0] + NET uio_out[0]
+     + DIRECTION OUTPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 72220 111020 ) N ;
+   - uio_out[1] + NET uio_out[1]
+     + DIRECTION OUTPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 69460 111020 ) N ;
+   - uio_out[2] + NET uio_out[2]
+     + DIRECTION OUTPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 66700 111020 ) N ;
+   - uio_out[3] + NET uio_out[3]
+     + DIRECTION OUTPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 63940 111020 ) N ;
+   - uio_out[4] + NET uio_out[4]
+     + DIRECTION OUTPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 61180 111020 ) N ;
+   - uio_out[5] + NET uio_out[5]
+     + DIRECTION OUTPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 58420 111020 ) N ;
+   - uio_out[6] + NET uio_out[6]
+     + DIRECTION OUTPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 55660 111020 ) N ;
+   - uio_out[7] + NET uio_out[7]
+     + DIRECTION OUTPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 52900 111020 ) N ;
+   - uo_out[0] + NET uo_out[0]
+     + DIRECTION OUTPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 94300 111020 ) N ;
+   - uo_out[1] + NET uo_out[1]
+     + DIRECTION OUTPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 91540 111020 ) N ;
+   - uo_out[2] + NET uo_out[2]
+     + DIRECTION OUTPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 88780 111020 ) N ;
+   - uo_out[3] + NET uo_out[3]
+     + DIRECTION OUTPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 86020 111020 ) N ;
+   - uo_out[4] + NET uo_out[4]
+     + DIRECTION OUTPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 83260 111020 ) N ;
+   - uo_out[5] + NET uo_out[5]
+     + DIRECTION OUTPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 80500 111020 ) N ;
+   - uo_out[6] + NET uo_out[6]
+     + DIRECTION OUTPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 77740 111020 ) N ;
+   - uo_out[7] + NET uo_out[7]
+     + DIRECTION OUTPUT
+     + USE SIGNAL
+     + PORT
+        + LAYER met4 ( -150 -500 ) ( 150 500 )        + PLACED ( 74980 111020 ) N ;
+   - k0 + NET k0
+     + PORT
+        + LAYER met3 ( -200 -400 ) ( 200 400 )        + PLACED ( 22600 30400 ) N ;
+   - k1 + NET k1
+     + PORT
+        + LAYER met3 ( -200 -400 ) ( 200 400 )        + PLACED ( 25600 30400 ) N ;
+   - k2 + NET k2
+     + PORT
+        + LAYER met3 ( -200 -400 ) ( 200 400 )        + PLACED ( 27600 30400 ) N ;
+   - k3 + NET k3
+     + PORT
+        + LAYER met3 ( -200 -400 ) ( 200 400 )        + PLACED ( 28600 30400 ) N ;
+   - k4 + NET k4
+     + PORT
+        + LAYER met2 ( -200 -400 ) ( 200 400 )        + PLACED ( 29600 30400 ) N ;
+END PINS
+
+NONDEFAULTRULES 3 ;
+  - met3_width_400
+     + LAYER met3 WIDTH 400 ;
+  - met2_width_400
+     + LAYER met2 WIDTH 400 ;
+  - met4_width_300
+     + LAYER met4 WIDTH 300 ;
+END NONDEFAULTRULES
+
+NETS 48 ;
+   - ena ( PIN ena )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 146740 110670 ) ( * 111370 ) ;
+   - clk ( PIN clk )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 143980 110670 ) ( * 111370 ) ;
+   - rst_n ( PIN rst_n )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 141220 110670 ) ( * 111370 ) ;
+   - ui_in[0] ( PIN ui_in[0] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 138460 110670 ) ( * 111370 ) ;
+   - ui_in[1] ( PIN ui_in[1] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 135700 110670 ) ( * 111370 ) ;
+   - ui_in[2] ( PIN ui_in[2] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 132940 110670 ) ( * 111370 ) ;
+   - ui_in[3] ( PIN ui_in[3] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 130180 110670 ) ( * 111370 ) ;
+   - ui_in[4] ( PIN ui_in[4] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 127420 110670 ) ( * 111370 ) ;
+   - ui_in[5] ( PIN ui_in[5] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 124660 110670 ) ( * 111370 ) ;
+   - ui_in[6] ( PIN ui_in[6] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 121900 110670 ) ( * 111370 ) ;
+   - ui_in[7] ( PIN ui_in[7] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 119140 110670 ) ( * 111370 ) ;
+   - uio_in[0] ( PIN uio_in[0] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 116380 110670 ) ( * 111370 ) ;
+   - uio_in[1] ( PIN uio_in[1] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 113620 110670 ) ( * 111370 ) ;
+   - uio_in[2] ( PIN uio_in[2] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 110860 110670 ) ( * 111370 ) ;
+   - uio_in[3] ( PIN uio_in[3] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 108100 110670 ) ( * 111370 ) ;
+   - uio_in[4] ( PIN uio_in[4] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 105340 110670 ) ( * 111370 ) ;
+   - uio_in[5] ( PIN uio_in[5] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 102580 110670 ) ( * 111370 ) ;
+   - uio_in[6] ( PIN uio_in[6] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 99820 110670 ) ( * 111370 ) ;
+   - uio_in[7] ( PIN uio_in[7] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 97060 110670 ) ( * 111370 ) ;
+   - uo_out[0] ( PIN uo_out[0] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 94300 110670 ) ( * 111370 ) ;
+   - uo_out[1] ( PIN uo_out[1] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 91540 110670 ) ( * 111370 ) ;
+   - uo_out[2] ( PIN uo_out[2] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 88780 110670 ) ( * 111370 ) ;
+   - uo_out[3] ( PIN uo_out[3] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 86020 110670 ) ( * 111370 ) ;
+   - uo_out[4] ( PIN uo_out[4] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 83260 110670 ) ( * 111370 ) ;
+   - uo_out[5] ( PIN uo_out[5] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 80500 110670 ) ( * 111370 ) ;
+   - uo_out[6] ( PIN uo_out[6] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 77740 110670 ) ( * 111370 ) ;
+   - uo_out[7] ( PIN uo_out[7] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 74980 110670 ) ( * 111370 ) ;
+   - uio_out[0] ( PIN uio_out[0] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 72220 110670 ) ( * 111370 ) ;
+   - uio_out[1] ( PIN uio_out[1] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 69460 110670 ) ( * 111370 ) ;
+   - uio_out[2] ( PIN uio_out[2] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 66700 110670 ) ( * 111370 ) ;
+   - uio_out[3] ( PIN uio_out[3] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 63940 110670 ) ( * 111370 ) ;
+   - uio_out[4] ( PIN uio_out[4] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 61180 110670 ) ( * 111370 ) ;
+   - uio_out[5] ( PIN uio_out[5] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 58420 110670 ) ( * 111370 ) ;
+   - uio_out[6] ( PIN uio_out[6] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 55660 110670 ) ( * 111370 ) ;
+   - uio_out[7] ( PIN uio_out[7] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 52900 110670 ) ( * 111370 ) ;
+   - uio_oe[0] ( PIN uio_oe[0] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 50140 110670 ) ( * 111370 ) ;
+   - uio_oe[1] ( PIN uio_oe[1] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 47380 110670 ) ( * 111370 ) ;
+   - uio_oe[2] ( PIN uio_oe[2] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 44620 110670 ) ( * 111370 ) ;
+   - uio_oe[3] ( PIN uio_oe[3] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 41860 110670 ) ( * 111370 ) ;
+   - uio_oe[4] ( PIN uio_oe[4] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 39100 110670 ) ( * 111370 ) ;
+   - uio_oe[5] ( PIN uio_oe[5] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 36340 110670 ) ( * 111370 ) ;
+   - uio_oe[6] ( PIN uio_oe[6] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 33580 110670 ) ( * 111370 ) ;
+   - uio_oe[7] ( PIN uio_oe[7] )
+      + ROUTED met4 TAPERRULE met4_width_300  ( 30820 110670 ) ( * 111370 ) ;
+   - k3 ( PIN k3 )
+      + ROUTED met3 TAPERRULE met3_width_400  ( 28600 30200 ) ( * 30600 ) ;
+   - k2 ( PIN k2 )
+      + ROUTED met3 TAPERRULE met3_width_400  ( 27600 30200 ) ( * 30600 ) ;
+   - k1 ( PIN k1 )
+      + ROUTED met3 TAPERRULE met3_width_400  ( 25600 30200 ) ( * 30600 ) ;
+   - k0 ( PIN k0 )
+      + ROUTED met3 TAPERRULE met3_width_400  ( 22600 30200 ) ( * 30600 ) ;
+   - k4 ( PIN k4 )
+      + ROUTED met2 TAPERRULE met2_width_400  ( 29600 30200 ) ( * 30600 ) ;
+END NETS
+
+END DESIGN
+
