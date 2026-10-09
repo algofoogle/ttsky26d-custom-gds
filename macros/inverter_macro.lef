@@ -26,7 +26,7 @@ MACRO inverter_macro
     END
   END Y
   PIN VCC
-    DIRECTION INPUT ;
+    DIRECTION INOUT ;
     USE POWER ;
     PORT
       LAYER met3 ;
@@ -34,7 +34,7 @@ MACRO inverter_macro
     END
   END VCC
   PIN VSS
-    DIRECTION INPUT ;
+    DIRECTION INOUT ;
     USE GROUND ;
     PORT
       LAYER met3 ;
