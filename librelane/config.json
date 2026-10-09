@@ -29,8 +29,31 @@
   ],
   "DIE_AREA": "0 0 161.00 111.52",
   "FP_DEF_TEMPLATE": "dir::../magic/postpin_clean.def",
-  "VDD_PIN": "VPWR",
+  "VDD_PIN": "VDPWR",
   "GND_PIN": "VGND",
+
+  "MACROS": {
+    "inverter_macro": {
+	    "gds": [ "dir::../macros/inverter_macro.gds" ],
+	    "lef": [ "dir::../macros/inverter_macro.lef" ],
+	    "vh":  [ "dir::../macros/inverter_macro_bb.v" ],
+	    "instances": {
+		    "u_inverter": {
+			    "location": [133.0, 80.0],
+			    "orientation": "N"
+			}
+		}
+	
+    }
+  },
+
+  "FP_MACRO_HORIZONTAL_HALO": 5,
+  "FP_MACRO_VERTICAL_HALO": 5,
+  "PDN_CONNECT_MACROS_TO_GRID": true,
+  "PDN_MACRO_CONNECTIONS": [
+	  "u_inverter VDPWR VGND VCC VSS"
+  ],
+
   "//RSZ_DONT_TOUCH_RX": "^[RGB]\\[[0-9]+\\]$"
 }
 
