@@ -1,11 +1,133 @@
 {
-  "PL_TARGET_DENSITY_PCT": 85,
-  "CLOCK_PERIOD": 25,
+  "PL_TARGET_DENSITY_PCT": 80,
+  "CLOCK_PERIOD": 33,
   "PL_RESIZER_HOLD_SLACK_MARGIN": 0.1,
   "GRT_RESIZER_HOLD_SLACK_MARGIN": 0.05,
   "RUN_LINTER": 1,
   "LINTER_INCLUDE_PDK_MODELS": 1,
+  "LINTER_DISABLE_WARNINGS": [
+    "TIMESCALEMOD",
+    "DECLFILENAME",
+    "UNUSEDPARAM"
+  ],
   "CLOCK_PORT": "clk",
+"// BASE_SDC_FILE": "dir::project.sdc",
+  "SYNTH_AUTONAME": 1,
+  "GRT_ADJUSTMENT": 0.0,
+"// EXTRA_VERILOG_MODELS": "../macros/inverter_macro_bb.v",
+"// MACROS": {
+    "pll2": {
+      "instances": {
+        "up.pll2": {
+          "location": [
+            1.5,
+            3
+          ],
+          "orientation": "N"
+        }
+      },
+      "gds": [
+        "dir::../macros/pll/pll2.gds"
+      ],
+      "lef": [
+        "dir::../macros/pll/pll2.lef"
+      ],
+      "lib": {
+        "*": [
+          "dir::../macros/pll/pll2.lib"
+        ]
+      }
+    },
+    "deskew": {
+      "instances": {
+        "up.deskew": {
+          "location": [
+            1.5,
+            23
+          ],
+          "orientation": "N"
+        }
+      },
+      "gds": [
+        "dir::../macros/deskew/deskew.gds"
+      ],
+      "lef": [
+        "dir::../macros/deskew/deskew.lef"
+      ],
+      "lib": {
+        "*": [
+          "dir::../macros/deskew/deskew.lib"
+        ]
+      }
+    },
+    "cdr_cp_vco": {
+      "instances": {
+        "down.cp_vco": {
+          "location": [
+            257,
+            1
+          ],
+          "orientation": "FS"
+        }
+      },
+      "gds": [
+        "dir::../macros/cdr/cdr_cp_vco.gds"
+      ],
+      "lef": [
+        "dir::../macros/cdr/cdr_cp_vco.lef"
+      ],
+      "lib": {
+        "*": [
+          "dir::../macros/cdr/cdr_cp_vco.lib"
+        ]
+      }
+    },
+    "cdrs": {
+      "instances": {
+        "down.cdrs": {
+          "location": [
+            257,
+            20
+          ],
+          "orientation": "N"
+        }
+      },
+      "gds": [
+        "dir::../macros/cdrsup/cdrs.gds"
+      ],
+      "lef": [
+        "dir::../macros/cdrsup/cdrs.lef"
+      ],
+      "lib": {
+        "*": [
+          "dir::../macros/cdrsup/cdrs.lib"
+        ]
+      }
+    }
+  },
+"// meta": {
+    "flow": "Classic",
+    "substituting_steps": {
+      "Klayout.Render": null
+    }
+  },
+"// PDN_MACRO_CONNECTIONS": [
+    "up.pll2 VPWR VGND VPWR VGND",
+    "up.deskew VPWR VGND VPWR VGND",
+    "down.cp_vco VPWR VGND VPWR VGND",
+    "down.cdrs VPWR VGND VPWR VGND"
+  ],
+  "FP_PDN_VPITCH": 26.695,
+  "FP_PDN_HORIZONTAL_LAYER": "met3",
+  "FP_MACRO_HORIZONTAL_HALO": "1",
+  "FP_MACRO_VERTICAL_HALO": "1",
+  "PDN_HORIZONTAL_HALO": "1",
+  "PDN_VERTICAL_HALO": "1",
+  "ERROR_ON_PDN_VIOLATIONS": 0,
+"// IGNORE_DISCONNECTED_MODULES": "pll2 deskew cdr_cp_vco cdrs",
+  "RUN_IRDROP_REPORT": 0,
+  "SYNTH_POWER_DEFINE": "USE_POWER_PINS",
+  "SYNTH_USE_PG_PINS_DEFINES": "USE_POWER_PINS",
   "RUN_KLAYOUT_XOR": 0,
   "RUN_KLAYOUT_DRC": 0,
   "DESIGN_REPAIR_BUFFER_OUTPUT_PORTS": 0,
@@ -15,45 +137,19 @@
   "RIGHT_MARGIN_MULT": 6,
   "FP_SIZING": "absolute",
   "GRT_ALLOW_CONGESTION": 1,
-  "IO_PIN_H_LENGTH": 2,
-  "IO_PIN_V_LENGTH": 2,
+  "FP_IO_HLENGTH": 2,
+  "FP_IO_VLENGTH": 2,
   "RUN_CTS": 1,
+  "FP_PDN_MULTILAYER": 0,
   "MAGIC_DEF_LABELS": 0,
   "MAGIC_WRITE_LEF_PINONLY": 1,
   "DESIGN_NAME": "tt_um_algofoogle_hello_world",
   "VERILOG_FILES": [
-    "dir::../verilog/rtl/hello_world.v"
+	  "dir::../verilog/rtl/hello_world.v"
   ],
   "DIE_AREA": "0 0 161.00 111.52",
-  "FP_DEF_TEMPLATE": "dir::../magic/postpin_clean.def",
-  "RT_MAX_LAYER": "met4",
-
-  "MACROS": {
-    "inverter_macro": {
-	    "gds": [ "dir::../macros/inverter_macro.gds" ],
-	    "lef": [ "dir::../macros/inverter_macro.lef" ],
-	    "vh":  [ "dir::../macros/inverter_macro_bb.v" ],
-	    "instances": {
-		    "u_inverter": {
-			    "location": [133.0, 80.0],
-			    "orientation": "N"
-			}
-		}
-	
-    }
-  },
-
-  "FP_MACRO_HORIZONTAL_HALO": 5,
-  "FP_MACRO_VERTICAL_HALO": 5,
-  "PDN_MACRO_CONNECTIONS": [
-	  "u_inverter VDPWR VGND VCC VSS"
-  ],
-  "PDN_CONNECT_MACROS_TO_GRID": true,
-  "VDD_PIN": "VDPWR",
+  "FP_DEF_TEMPLATE": "dir::../magic/tt_block_1x1_pg.def",
+  "VDD_PIN": "VPWR",
   "GND_PIN": "VGND",
-  "PDN_VPITCH": 38.87,
-  "PDN_HORIZONTAL_LAYER": "met3",
-
-  "//RSZ_DONT_TOUCH_RX": "^[RGB]\\[[0-9]+\\]$"
+  "RT_MAX_LAYER": "met4"
 }
-
