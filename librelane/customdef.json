@@ -5,20 +5,20 @@
   ],
   "FP_DEF_TEMPLATE": "dir::../magic/postpin_clean.def",
   "FP_OBSTRUCTIONS": [
-    "0 0 50 30"
+    "0 0 50 31.6"
   ],
   "ROUTING_OBSTRUCTIONS": [
-    "met1 0 0 50 30",
-    "met2 0 0 50 30",
-    "met3 0 0 50 30",
-    "met4 0 0 50 30",
-    "met5 0 0 50 30"
+    "met1 0 0 50 30.6",
+    "met2 0 0 50 30.6",
+    "met3 0 0 50 30.6",
+    "met4 0 0 50 30.6",
+    "met5 0 0 50 30.6"
   ],
   "PDN_OBSTRUCTIONS": [
-    "met1 0 0 50 30",
-    "met2 0 0 50 30",
-    "met3 0 0 50 30",
-    "met4 0 0 50 30",
-    "met5 0 0 50 30"
+    "met1 0 0 50 30.6",
+    "met2 0 0 50 30.6",
+    "met3 0 0 50 30.6",
+    "met4 0 0 50 30.6",
+    "met5 0 0 50 30.6"
   ]
 }
