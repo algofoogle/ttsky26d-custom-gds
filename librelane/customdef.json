@@ -1,19 +1,24 @@
 {
-    "FP_OBSTRUCTIONS": [
-        "0 0 50 30"
-    ],
-    "ROUTING_OBSTRUCTIONS": [
-        "met1 0 0 50 30",
-        "met2 0 0 50 30",
-        "met3 0 0 50 30",
-        "met4 0 0 50 30",
-        "met5 0 0 50 30"
-    ],
-    "PDN_OBSTRUCTIONS": [
-        "met1 0 0 50 30",
-        "met2 0 0 50 30",
-        "met3 0 0 50 30",
-        "met4 0 0 50 30",
-        "met5 0 0 50 30"
-    ]
+  "VERILOG_DEFINES": [
+    "AMM_USE_MACRO",
+    "AMM_USE_CUSTOM_DEF"
+  ],
+  "FP_DEF_TEMPLATE": "dir::../magic/postpin_clean.def",
+  "FP_OBSTRUCTIONS": [
+    "0 0 50 30"
+  ],
+  "ROUTING_OBSTRUCTIONS": [
+    "met1 0 0 50 30",
+    "met2 0 0 50 30",
+    "met3 0 0 50 30",
+    "met4 0 0 50 30",
+    "met5 0 0 50 30"
+  ],
+  "PDN_OBSTRUCTIONS": [
+    "met1 0 0 50 30",
+    "met2 0 0 50 30",
+    "met3 0 0 50 30",
+    "met4 0 0 50 30",
+    "met5 0 0 50 30"
+  ]
 }
