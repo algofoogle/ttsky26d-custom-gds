@@ -1,6 +1,7 @@
 {
   "VERILOG_DEFINES": [
-    "AMM_USE_MACRO", "AMM_USE_CUSTOM_DEF"
+    "AMM_USE_MACRO",
+    "XXAMM_USE_CUSTOM_DEF"
   ],
 
   "FP_MACRO_HORIZONTAL_HALO": 1,
@@ -22,5 +23,5 @@
       "lef": [ "dir::../macros/inverter_macro.lef" ]
     }
   },
-  "IGNORE_DISCONNECTED_MODULES": "inverter_macro"
+"//IGNORE_DISCONNECTED_MODULES": "inverter_macro"
 }
