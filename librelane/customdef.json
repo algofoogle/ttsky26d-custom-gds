@@ -1,0 +1,19 @@
+{
+    "FP_OBSTRUCTIONS": [
+        "0 0 50 30"
+    ],
+    "ROUTING_OBSTRUCTIONS": [
+        "met1 0 0 50 30",
+        "met2 0 0 50 30",
+        "met3 0 0 50 30",
+        "met4 0 0 50 30",
+        "met5 0 0 50 30"
+    ],
+    "PDN_OBSTRUCTIONS": [
+        "met1 0 0 50 30",
+        "met2 0 0 50 30",
+        "met3 0 0 50 30",
+        "met4 0 0 50 30",
+        "met5 0 0 50 30"
+    ]
+}

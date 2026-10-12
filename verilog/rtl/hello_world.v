@@ -22,12 +22,15 @@ module tt_um_algofoogle_hello_world (
     input  wire       ena,      // always 1 when the design is powered, so you can ignore it
     input  wire       clk,      // clock
 
-//    // Example extra pins:
-//    output wire k4,
-//    output wire k3,
-//    output wire k2,
-//    output wire k1,
-//    output wire k0,
+`ifdef AMM_USE_CUSTOM_DEF
+    // Example extra pins:
+    output wire k4,
+    output wire k3,
+    output wire k2,
+    output wire k1,
+    output wire k0,
+`endif
+
     input  wire       rst_n     // reset_n - low to reset
 );
 
@@ -60,7 +63,9 @@ module tt_um_algofoogle_hello_world (
 `endif
 	assign uio_oe = '1; // All 1.
 
-//    assign {k4,k3,k2,k1,k0} = counter[4:0];
+`ifdef AMM_USE_CUSTOM_DEF
+    assign {k4,k3,k2,k1,k0} = counter[4:0];
+`endif
 
 	wire _unused = &{ena, uio_in, 1'b0};
 

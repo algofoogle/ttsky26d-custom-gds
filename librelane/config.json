@@ -148,7 +148,9 @@
 	  "dir::../verilog/rtl/hello_world.v"
   ],
   "DIE_AREA": "0 0 161.00 111.52",
-  "FP_DEF_TEMPLATE": "dir::../magic/tt_block_1x1_pg.def",
+"//FP_DEF_TEMPLATE": "dir::../magic/tt_block_1x1_pg.def",
+  "FP_DEF_TEMPLATE": "dir::../magic/postpin_clean.def",
+  "VERILOG_DEFINES": [ "AMM_USE_CUSTOM_DEF" ],
   "VDD_PIN": "VPWR",
   "GND_PIN": "VGND",
   "RT_MAX_LAYER": "met4"
