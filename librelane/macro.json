@@ -1,0 +1,26 @@
+{
+  "VERILOG_DEFINES": [
+    "AMM_USE_MACRO", "AMM_USE_CUSTOM_DEF"
+  ],
+
+  "FP_MACRO_HORIZONTAL_HALO": 1,
+  "FP_MACRO_VERTICAL_HALO": 1,
+  "PDN_MACRO_CONNECTIONS": [
+    "u_inverter VPWR VGND VCC VSS"
+  ],
+"//PDN_CONNECT_MACROS_TO_GRID": true,
+  "EXTRA_VERILOG_MODELS": "../macros/inverter_macro_bb.v",
+  "MACROS": {
+  "inverter_macro": {
+    "instances": {
+      "u_inverter": {
+        "location": [ 96, 44 ],
+        "orientation": "N"
+      }
+    },
+      "gds": [ "dir::../macros/inverter_macro.gds" ],
+      "lef": [ "dir::../macros/inverter_macro.lef" ]
+    }
+  },
+  "IGNORE_DISCONNECTED_MODULES": "inverter_macro"
+}
